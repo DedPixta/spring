@@ -11,7 +11,11 @@
     <context:property-placeholder location="classpath:musicPlayer.properties"/>
 
     <bean id="classicMusic"
-          class="com.makos.spring.ClassicMusic"/>
+          class="com.makos.spring.ClassicMusic"
+          init-method="init"
+          destroy-method="destroy"
+          factory-method="getNewMusic"
+    />
 
     <bean id="rockMusic"
           class="com.makos.spring.RockMusic"/>
