@@ -1,18 +1,18 @@
 package com.makos.spring;
 
-import com.makos.spring.model.MusicPlayer;
-import org.springframework.context.ApplicationContext;
+import com.makos.spring.model.Computer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestSpring {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext(
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
                 "applicationContext.xml"
         );
 
-        MusicPlayer player = context.getBean(MusicPlayer.class);
+        Computer computer = context.getBean(Computer.class);
 
-        player.playMusic();
+        System.out.println(computer);
 
+        context.close();
     }
 }
