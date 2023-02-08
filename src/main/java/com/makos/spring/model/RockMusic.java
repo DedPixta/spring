@@ -1,5 +1,8 @@
-package com.makos.spring;
+package com.makos.spring.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RockMusic implements Music{
     @Override
     public String getSong() {

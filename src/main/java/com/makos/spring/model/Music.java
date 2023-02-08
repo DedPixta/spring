@@ -1,4 +1,4 @@
-package com.makos.spring;
+package com.makos.spring.model;
 
 public interface Music {
 

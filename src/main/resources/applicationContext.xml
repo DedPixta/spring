@@ -8,31 +8,6 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+        <context:component-scan base-package="com.makos.spring"/>
 
-    <bean id="classicMusic"
-          class="com.makos.spring.ClassicMusic"
-          init-method="init"
-          destroy-method="destroy"
-          factory-method="getNewMusic"
-    />
-
-    <bean id="rockMusic"
-          class="com.makos.spring.RockMusic"/>
-
-    <bean id="jazzMusic"
-          class="com.makos.spring.JazzMusic"/>
-
-    <bean id="musicPlayer"
-          class="com.makos.spring.MusicPlayer">
-        <property name="musicList">
-            <list value-type="java.util.List">
-                <ref bean="classicMusic"/>
-                <ref bean="rockMusic"/>
-                <ref bean="jazzMusic"/>
-            </list>
-        </property>
-        <property name="name" value="${musicPlayer.name}"/>
-        <property name="volume" value="${musicPlayer.volume}"/>
-    </bean>
 </beans>

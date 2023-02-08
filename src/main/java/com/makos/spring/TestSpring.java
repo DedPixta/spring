@@ -1,5 +1,6 @@
 package com.makos.spring;
 
+import com.makos.spring.model.MusicPlayer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -9,9 +10,9 @@ public class TestSpring {
                 "applicationContext.xml"
         );
 
-        ClassicMusic music = context.getBean("classicMusic", ClassicMusic.class);
-        ClassicMusic music2 = context.getBean("classicMusic", ClassicMusic.class);
-        System.out.println(music.getSong());
-        System.out.println(music2.getSong());
+        MusicPlayer player = context.getBean(MusicPlayer.class);
+
+        player.playMusic();
+
     }
 }

@@ -1,5 +1,8 @@
-package com.makos.spring;
+package com.makos.spring.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ClassicMusic implements Music{
 
     private ClassicMusic() {}
