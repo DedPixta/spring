@@ -3,14 +3,32 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="music"
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+
+    <bean id="classicMusic"
           class="com.makos.spring.ClassicMusic"/>
+
+    <bean id="rockMusic"
+          class="com.makos.spring.RockMusic"/>
+
+    <bean id="jazzMusic"
+          class="com.makos.spring.JazzMusic"/>
 
     <bean id="musicPlayer"
           class="com.makos.spring.MusicPlayer">
-        <constructor-arg  ref="music"/>
+        <property name="musicList">
+            <list value-type="java.util.List">
+                <ref bean="classicMusic"/>
+                <ref bean="rockMusic"/>
+                <ref bean="jazzMusic"/>
+            </list>
+        </property>
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
     </bean>
 </beans>
