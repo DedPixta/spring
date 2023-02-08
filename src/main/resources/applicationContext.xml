@@ -6,8 +6,11 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="testBean" class="com.makos.spring.TestBean">
-        <constructor-arg value="Maxim"/>
-    </bean>
+    <bean id="music"
+          class="com.makos.spring.ClassicMusic"/>
 
+    <bean id="musicPlayer"
+          class="com.makos.spring.MusicPlayer">
+        <constructor-arg  ref="music"/>
+    </bean>
 </beans>
