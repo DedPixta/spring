@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+<body>
+
+<form id="calc_input">
+    <label for="a">Digit a:</label><br>
+    <input type="number" id="a" name="a" required><br>
+    <label for="b">Digit b:</label><br>
+    <input type="number" id="b" name="b" required><br>
+    <label>
+        <select name="action" size="1">
+            <option value="addition" selected> addition </option>
+            <option value="multiplication"> multiplication </option>
+            <option value="subtraction"> subtraction </option>
+            <option value="division"> division </option>
+        </select>
+    </label>
+</form>
+    <button type="submit" form="calc_input" value="Submit">Calculate</button>
+<p th:text="${answer != null} ? 'answer is ' + ${answer}"/>
+</body>
+</html>
