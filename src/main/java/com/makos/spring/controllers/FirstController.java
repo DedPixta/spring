@@ -14,14 +14,14 @@ public class FirstController {
     @GetMapping("/hello")
     public String helloPage(@RequestParam(value = "name", required = false) String name,
                             @RequestParam(value = "surename", required = false) String surename,
-                            Model model){
+                            Model model) {
         model.addAttribute("message", "Hello, " + name + " " + surename);
 
         return "first/hello";
     }
 
     @GetMapping("/goodbye")
-    public String goodbyePage(HttpServletRequest request){
+    public String goodbyePage(HttpServletRequest request) {
         String name = request.getParameter("name");
         String surename = request.getParameter("surename");
 
@@ -31,22 +31,23 @@ public class FirstController {
     }
 
     @GetMapping("/calc")
-    public String calculator(@RequestParam(value = "a",required = false) Integer a,
-                             @RequestParam(value = "b",required = false) Integer b,
-                             @RequestParam(value = "action",required = false) String action,
-                             Model model){
-        if("multiplication".equals(action)){
-            model.addAttribute("answer", a*b);
+    public String calculator(@RequestParam(value = "a", required = false) Integer a,
+                             @RequestParam(value = "b", required = false) Integer b,
+                             @RequestParam(value = "action", required = false) String action,
+                             Model model) {
+        double answer = 0;
+
+        if ("multiplication".equals(action)) {
+            answer = a * b;
+        } else if ("addition".equals(action)) {
+            answer = a + b;
+        } else if ("subtraction".equals(action)) {
+            answer = a - b;
+        } else if ("division".equals(action)) {
+            answer = (double) a / b;
         }
-        if("addition".equals(action)){
-            model.addAttribute("answer", a+b);
-        }
-        if("subtraction".equals(action)){
-            model.addAttribute("answer", a-b);
-        }
-        if("division".equals(action)){
-            model.addAttribute("answer", a/b);
-        }
+
+        model.addAttribute("answer", answer);
 
         return "first/calculator";
     }
