@@ -10,15 +10,15 @@ import java.util.List;
 public class PersonDAO {
 
     private static int PEOPLE_COUNT;
-    private List<Person> people;
+    private final List<Person> people;
 
     {
         people = new ArrayList<>();
 
-        people.add(new Person(++PEOPLE_COUNT, "Ivan"));
-        people.add(new Person(++PEOPLE_COUNT, "Mariya"));
-        people.add(new Person(++PEOPLE_COUNT, "Igor"));
-        people.add(new Person(++PEOPLE_COUNT, "Andrii"));
+        people.add(new Person(++PEOPLE_COUNT, "Ivan", 24, "vanya@mail.ru"));
+        people.add(new Person(++PEOPLE_COUNT, "Mariya", 26, "masha@mail.ru"));
+        people.add(new Person(++PEOPLE_COUNT, "Igor", 53, "igor@gmail.com"));
+        people.add(new Person(++PEOPLE_COUNT, "Andrii", 41, "andro@yahoo.com"));
     }
 
     public List<Person> index() {
@@ -39,8 +39,10 @@ public class PersonDAO {
 
     public void update(int id, Person updatedPerson) {
         Person personToBeUpdated = show(id);
-        String newName = updatedPerson.getName();
-        personToBeUpdated.setName(newName);
+
+        personToBeUpdated.setName(updatedPerson.getName());
+        personToBeUpdated.setAge(updatedPerson.getAge());
+        personToBeUpdated.setEmail(updatedPerson.getEmail());
     }
 
     public void delete(int id) {
