@@ -39,17 +39,19 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person(name, age, email) VALUES (?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO person(name, age, email, address) VALUES (?, ?, ?, ?)",
                 person.getName(),
                 person.getAge(),
-                person.getEmail());
+                person.getEmail(),
+                person.getAddress());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE person SET name=?, age=?, email=? WHERE id=?",
+        jdbcTemplate.update("UPDATE person SET name=?, age=?, email=?, address=? WHERE id=?",
                 updatedPerson.getName(),
                 updatedPerson.getAge(),
                 updatedPerson.getEmail(),
+                updatedPerson.getAddress(),
                 id);
     }
 
@@ -79,7 +81,7 @@ public class PersonDAO {
 
         long before = System.currentTimeMillis();
 
-        jdbcTemplate.batchUpdate("INSERT INTO person(name, age, email) VALUES (?, ?, ?)", new BatchPreparedStatementSetter() {
+        jdbcTemplate.batchUpdate("INSERT INTO person(name, age, email, address) VALUES (?, ?, ?, ?)", new BatchPreparedStatementSetter() {
 
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -87,6 +89,7 @@ public class PersonDAO {
                 ps.setString(1, person.getName());
                 ps.setInt(2, person.getAge());
                 ps.setString(3, person.getEmail());
+                ps.setString(4, person.getAddress());
             }
 
             @Override
@@ -108,6 +111,7 @@ public class PersonDAO {
                     .name("user_" + i)
                     .age(25)
                     .email("test" + i)
+                    .address("address" + i)
                     .build();
 
             people.add(person);
