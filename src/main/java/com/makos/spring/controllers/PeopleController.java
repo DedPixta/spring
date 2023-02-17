@@ -1,6 +1,5 @@
 package com.makos.spring.controllers;
 
-import com.makos.spring.dao.BookDAO;
 import com.makos.spring.dao.PersonDAO;
 import com.makos.spring.models.Person;
 import jakarta.validation.Valid;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class PeopleController {
 
     private final PersonDAO personDAO;
-    private final BookDAO bookDAO;
 
-    public PeopleController(PersonDAO personDAO, BookDAO bookDAO) {
+    public PeopleController(PersonDAO personDAO) {
         this.personDAO = personDAO;
-        this.bookDAO = bookDAO;
     }
 
     @GetMapping
@@ -46,7 +43,6 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
-        model.addAttribute("books", bookDAO.showBorrowedBy(id));
         return "people/show";
     }
 

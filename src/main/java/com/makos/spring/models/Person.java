@@ -1,5 +1,6 @@
 package com.makos.spring.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -9,17 +10,25 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
+@Entity
+@Table(name = "person")
 public class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Name should not be empty")
-    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+", message = "name should be contain Firstname and Lastname")
-    @Size(min = 2, max = 100, message = "name should be greater 2 and lower 100 characters")
-    private String fullName;
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    private String name;
 
-    @Min(value = 1800, message = "birth year should be greater than 1800")
-    @Max(value = 2023, message = "birth year should be lower than 2023")
-    private int birthYear;
+    @Min(value = 0, message = "Age should be greater than 0")
+    @Max(value = 100, message = "Age should be lower than 100")
+    private int age;
+
+    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "Email should be valid")
+    private String email;
 
 }

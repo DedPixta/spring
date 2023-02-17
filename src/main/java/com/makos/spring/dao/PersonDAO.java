@@ -1,53 +1,60 @@
 package com.makos.spring.dao;
 
 import com.makos.spring.models.Person;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
 public class PersonDAO {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PersonDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
+    @Transactional(readOnly = true)
     public List<Person> index() {
-        return jdbcTemplate.query("SELECT * FROM spring.person", new BeanPropertyRowMapper<>(Person.class));
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery("from Person", Person.class)
+                .list();
     }
 
+    @Transactional(readOnly = true)
     public Person show(int id) {
-        return jdbcTemplate.queryForStream("SELECT * FROM spring.person WHERE id=?", new BeanPropertyRowMapper<>(Person.class), new Object[]{id})
-                .findAny()
-                .orElse(null);
+        return sessionFactory
+                .getCurrentSession()
+                .get(Person.class, id);
     }
 
+    @Transactional
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO spring.person(full_name, birth_year) VALUES (?, ?)",
-                person.getFullName(),
-                person.getBirthYear());
+        sessionFactory
+                .getCurrentSession()
+                .persist(person);
     }
 
+    @Transactional
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE spring.person SET full_name=?, birth_year=? WHERE id=?",
-                updatedPerson.getFullName(),
-                updatedPerson.getBirthYear(),
-                id);
+        Session session = sessionFactory.getCurrentSession();
+        Person personToBeUpdated = session.get(Person.class, id);
+
+        personToBeUpdated.setName(updatedPerson.getName());
+        personToBeUpdated.setAge(updatedPerson.getAge());
+        personToBeUpdated.setEmail(updatedPerson.getEmail());
     }
 
+    @Transactional
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM spring.person WHERE id=?", id);
-    }
-
-    public Person showBorrowedPerson(int bookId) {
-        return jdbcTemplate.queryForStream("SELECT * FROM spring.person AS p JOIN spring.person_books pb ON p.id=pb.person_id WHERE pb.book_id=?", new BeanPropertyRowMapper<>(Person.class), new Object[]{bookId} )
-                .findAny()
-                .orElse(null);
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.get(Person.class, id);
+        session.remove(person);
     }
 }

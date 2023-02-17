@@ -13,20 +13,14 @@
     <div>
         <label for="id" class="form-label" style="font-weight:bold;">Person id</label>
         <p id="id" th:text="${person.getId()}">Value</p>
-    </div>
-    <div>
+
         <label for="name" class="form-label" style="font-weight:bold;">Name</label>
-        <p id="name" th:text="${person.getFullName()}">Value</p>
+        <p id="name" th:text="${person.getName()}">Value</p>
+
+        <label for="email" class="form-label" style="font-weight:bold;">Email</label>
+        <p id="email" th:text="${person.getEmail()}">Value</p>
     </div>
     <hr>
-
-    <p th:if="${books.isEmpty()}">The man hasn't picked up any books yet</p>
-    <div th:unless="${books.isEmpty()}">
-        <p><strong>Books:</strong></p>
-        <div th:each="book : ${books}">
-            <p th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p>
-        </div>
-    </div>
 
     <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
         <a th:href="@{/people/{id}/edit(id=${person.getId()})}" class="btn btn-primary">edit</a>
