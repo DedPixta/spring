@@ -1,7 +1,7 @@
 package com.makos.spring.services;
 
 import com.makos.spring.models.Person;
-import com.makos.spring.repositories.PeopleRepositry;
+import com.makos.spring.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,36 +12,41 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PeopleService {
 
-    private final PeopleRepositry peopleRepositry;
+    private final PeopleRepository peopleRepository;
 
     @Autowired
-    public PeopleService(PeopleRepositry peopleRepositry) {
-        this.peopleRepositry = peopleRepositry;
+    public PeopleService(PeopleRepository peopleRepository) {
+        this.peopleRepository = peopleRepository;
     }
 
     public List<Person> findAll() {
-        return peopleRepositry.findAll();
+        return peopleRepository.findAll();
     }
 
     public Person findOne(int id) {
-        return peopleRepositry
+        return peopleRepository
                 .findById(id)
                 .orElse(null);
     }
 
     @Transactional
     public void save(Person person) {
-        peopleRepositry.save(person);
+        peopleRepository.save(person);
     }
 
     @Transactional
     public void update(int id, Person updatePerson) {
         updatePerson.setId(id);
-        peopleRepositry.save(updatePerson);
+        peopleRepository.save(updatePerson);
     }
 
     @Transactional
     public void delete(int id) {
-        peopleRepositry.deleteById(id);
+        peopleRepository.deleteById(id);
     }
+
+    public void test() {
+        System.out.println("Testing here with debug. Inside Hibernate Transaction");
+    }
+
 }
