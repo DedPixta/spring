@@ -3,8 +3,10 @@ package com.makos.spring.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -33,7 +35,14 @@ public class Person {
     @Email(message = "Email should be valid")
     private String email;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Item> items;
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date dateOfBirth;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date createdAt;
 
 }

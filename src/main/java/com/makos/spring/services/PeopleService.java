@@ -31,6 +31,7 @@ public class PeopleService {
 
     @Transactional
     public void save(Person person) {
+//        person.setCreatedAt(new Date());
         peopleRepository.save(person);
     }
 
@@ -43,10 +44,6 @@ public class PeopleService {
     @Transactional
     public void delete(int id) {
         peopleRepository.deleteById(id);
-    }
-
-    public void test() {
-        System.out.println("Testing here with debug. Inside Hibernate Transaction");
     }
 
 }

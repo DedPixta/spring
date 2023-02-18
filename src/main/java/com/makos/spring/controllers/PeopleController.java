@@ -1,7 +1,6 @@
 package com.makos.spring.controllers;
 
 import com.makos.spring.models.Person;
-import com.makos.spring.services.ItemService;
 import com.makos.spring.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -14,22 +13,14 @@ import org.springframework.web.bind.annotation.*;
 public class PeopleController {
 
     private final PeopleService peopleService;
-    private final ItemService itemService;
 
-    public PeopleController(PeopleService peopleService, ItemService itemService) {
+    public PeopleController(PeopleService peopleService) {
         this.peopleService = peopleService;
-        this.itemService = itemService;
     }
 
     @GetMapping
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
-
-        itemService.findByItemName("Airpods");
-        itemService.findByOwner(peopleService.findAll().get(0));
-
-        peopleService.test();
-
         return "people/index";
     }
 
