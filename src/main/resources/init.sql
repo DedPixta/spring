@@ -8,8 +8,7 @@ CREATE TABLE spring.person
     name  varchar(100) NOT NULL,
     age   int CHECK ( age > 0 AND age < 100),
     email varchar(100) NOT NULL UNIQUE,
-    date_of_birth DATE,
-    created_at timestamp
+    mood  varchar
 );
 
 INSERT INTO

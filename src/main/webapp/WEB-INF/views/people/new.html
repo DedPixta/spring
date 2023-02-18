@@ -38,15 +38,6 @@
         </div>
         <br>
 
-        <label for="date_of_birth" class="mb-3">Enter date of birth (dd/mm/yyyy): </label>
-        <input type="text" th:field="*{dateOfBirth}" id="date_of_birth">
-        <div style="color:red"
-             th:if="${#fields.hasErrors('dateOfBirth')}"
-             th:errors="*{dateOfBirth}">
-            Date of birth error
-        </div>
-        <br>
-
         <input type="submit" value="Create!" class="btn btn-primary mb-3">
     </form>
     <a th:href="@{/people}" class="btn btn-secondary">back to list</a>

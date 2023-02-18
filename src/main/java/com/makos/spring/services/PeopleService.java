@@ -1,5 +1,6 @@
 package com.makos.spring.services;
 
+import com.makos.spring.models.Mood;
 import com.makos.spring.models.Person;
 import com.makos.spring.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PeopleService {
 
     @Transactional
     public void save(Person person) {
-//        person.setCreatedAt(new Date());
+        person.setMood(Mood.CALM);
         peopleRepository.save(person);
     }
 
