@@ -33,6 +33,15 @@ import java.util.Properties;
 @EnableJpaRepositories("com.makos.spring.repositories")
 public class SpringConfig implements WebMvcConfigurer {
 
+    public static final String URL = "hibernate.connection.url";
+    public static final String USERNAME = "hibernate.connection.username";
+    public static final String PASSWORD = "hibernate.connection.password";
+    public static final String SCHEMA = "hibernate.connection.schema";
+    public static final String DIALECT = "hibernate.dialect";
+    public static final String SHOW_SQL = "hibernate.show_sql";
+    public static final String FORMAT_SQL = "hibernate.format_sql";
+    public static final String DRIVER_CLASS = "hibernate.connection.driver_class";
+
     private final ApplicationContext ctx;
     private final Environment env;
 
@@ -72,38 +81,23 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getRequiredProperty("hibernate.connection.driver_class")));
-        dataSource.setUrl(env.getRequiredProperty("hibernate.connection.url"));
-        dataSource.setUsername(env.getRequiredProperty("hibernate.connection.username"));
-        dataSource.setPassword(env.getRequiredProperty("hibernate.connection.password"));
-        dataSource.setSchema(env.getRequiredProperty("hibernate.connection.schema"));
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getRequiredProperty(DRIVER_CLASS)));
+        dataSource.setUrl(env.getRequiredProperty(URL));
+        dataSource.setUsername(env.getRequiredProperty(USERNAME));
+        dataSource.setPassword(env.getRequiredProperty(PASSWORD));
+        dataSource.setSchema(env.getRequiredProperty(SCHEMA));
 
         return dataSource;
     }
 
-//    @Bean
-//    public JdbcTemplate jdbcTemplate() {
-//        return new JdbcTemplate(dataSource());
-//    }
-
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
+        properties.put("hibernate.dialect", env.getRequiredProperty(DIALECT));
+        properties.put("hibernate.show_sql", env.getRequiredProperty(SHOW_SQL));
+        properties.put("hibernate.format_sql", env.getRequiredProperty(FORMAT_SQL));
 
         return properties;
     }
-
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan("com.makos.spring.models");
-//        sessionFactory.setHibernateProperties(hibernateProperties());
-//
-//        return sessionFactory;
-//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -117,14 +111,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
         return em;
     }
-
-//    @Bean
-//    public PlatformTransactionManager hibernateTransactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory().getObject());
-//
-//        return transactionManager;
-//    }
 
     @Bean
     public PlatformTransactionManager transactionManager() {
