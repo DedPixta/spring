@@ -10,22 +10,31 @@
 <body>
 
 <div class="container mt-3">
-    <form th:method="POST" th:action="@{/people}" th:object="${person}">
-        <label for="name" class="mb-3">Enter name: </label>
-        <input type="text" th:field="*{fullName}" id="name">
+    <form th:method="POST" th:action="@{/books}" th:object="${book}">
+        <label for="title" class="mb-3">Enter title: </label>
+        <input type="text" th:field="*{title}" id="title">
         <div style="color:red"
-             th:if="${#fields.hasErrors('fullName')}"
-             th:errors="*{fullName}">
-            Name error
+             th:if="${#fields.hasErrors('title')}"
+             th:errors="*{title}">
+            Title error
         </div>
         <br>
 
-        <label for="age" class="mb-3">Enter birth year: </label>
-        <input type="number" th:field="*{birthYear}" id="age">
+        <label for="author" class="mb-3">Enter author Firstname and Lastname: </label>
+        <input type="number" th:field="*{author}" id="author">
         <div style="color:red"
-             th:if="${#fields.hasErrors('birthYear')}"
-             th:errors="*{birthYear}">
-            Year error
+             th:if="${#fields.hasErrors('author')}"
+             th:errors="*{author}">
+            Age error
+        </div>
+        <br>
+W
+        <label for="year" class="mb-3">Enter year: </label>
+        <input type="number" th:field="*{year}" id="year">
+        <div style="color:red"
+             th:if="${#fields.hasErrors('year')}"
+             th:errors="*{year}">
+            Email error
         </div>
         <br>
 

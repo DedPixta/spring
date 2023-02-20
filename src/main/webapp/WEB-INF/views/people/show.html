@@ -15,13 +15,21 @@
         <p id="id" th:text="${person.getId()}">Value</p>
 
         <label for="name" class="form-label" style="font-weight:bold;">Name</label>
-        <p id="name" th:text="${person.getName()}">Value</p>
+        <p id="name" th:text="${person.getFullName()}">Value</p>
 
-        <label for="email" class="form-label" style="font-weight:bold;">Email</label>
-        <p id="email" th:text="${person.getEmail()}">Value</p>
+        <label for="year" class="form-label" style="font-weight:bold;">Birth year</label>
+        <p id="year" th:text="${person.getBirthYear()}">Value</p>
     </div>
     <hr>
+    <p th:if="${books.isEmpty()}">The man hasn't picked up any books yet</p>
+    <div th:unless="${books.isEmpty()}">
+        <p><strong>Books:</strong></p>
+        <div th:each="book : ${books}">
+            <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+        </div>
+    </div>
 
+    <hr>
     <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
         <a th:href="@{/people/{id}/edit(id=${person.getId()})}" class="btn btn-primary">edit</a>
         <input type="submit" value="delete" class="btn btn-outline-danger">

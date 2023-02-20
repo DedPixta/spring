@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Person</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container mt-3">
+
+    <strong>
+        <p id="book" th:text="${book.getTitle() + ', '+ book.getAuthor() + ', ' + book.getYear()}">Value</p>
+    </strong>
+
+    <div th:if="${person == null}">
+        <p>This book is free. Who to assign it to?</p>
+
+        <form th:method="PATCH"
+              th:action="@{/books/{id}/assign(id=${book.getId()})}"
+              th:object="${book}">
+            <label for="person" class="mb-3">Choose person</label>
+            <select id="person"
+                    th:field="*{id}">
+                <option th:each="pers : ${people}"
+                        th:value="${pers.getId()}"
+                        th:text="${pers.getFullName()}">
+                </option>
+            </select>
+
+            <br>
+            <input type="submit" value="Assign a book" class="btn btn-secondary mb-3">
+        </form>
+    </div>
+
+    <div th:if="${person != null}">
+        <div class="d-flex">
+        <p class="me-2">This book is taken by: </p>
+        <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFullName()}">Text</a>
+        </div>
+
+        <form th:method="PATCH"
+              th:action="@{/books/{id}/release(id=${book.getId()})}"
+              th:object="${book}">
+
+            <input type="submit" value="Return a book" class="btn btn-secondary mb-3">
+        </form>
+    </div>
+
+    <hr>
+    <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+        <a th:href="@{/books/{id}/edit(id=${book.getId()})}" class="btn btn-primary">edit</a>
+        <input type="submit" value="delete" class="btn btn-outline-danger">
+    </form>
+    <br>
+    <a th:href="@{/books}" class="btn btn-secondary">back to list</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>
