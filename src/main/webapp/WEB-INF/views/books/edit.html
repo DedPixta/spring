@@ -28,13 +28,13 @@
             Age error
         </div>
         <br>
-        W
-        <label for="year" class="mb-3">Enter year: </label>
+
+        <label for="year" class="mb-3">Enter publication year: </label>
         <input type="number" th:field="*{year}" id="year">
         <div style="color:red"
              th:if="${#fields.hasErrors('year')}"
              th:errors="*{year}">
-            Email error
+            Year error
         </div>
         <br>
 

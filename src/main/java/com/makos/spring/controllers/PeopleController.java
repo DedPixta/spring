@@ -24,13 +24,7 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String index(Model model,
-                        @RequestParam(value = "page", required = false) Integer page,
-                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
-                        @RequestParam(value = "sort_by_year", required = false) boolean sortByYear
-    ) {
-        // if page or booksPerpage null return all with sort
-        // else findAll with pagination
+    public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }

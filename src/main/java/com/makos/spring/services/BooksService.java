@@ -5,6 +5,9 @@ import com.makos.spring.models.Person;
 import com.makos.spring.repositories.BooksRepository;
 import com.makos.spring.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +25,6 @@ public class BooksService {
     public BooksService(BooksRepository booksRepository, PeopleRepository peopleRepository) {
         this.booksRepository = booksRepository;
         this.peopleRepository = peopleRepository;
-    }
-
-    public List<Book> findAll() {
-        return booksRepository.findAll();
     }
 
     @Transactional
@@ -72,5 +71,21 @@ public class BooksService {
 
     public List<Book> findByOwner(Person owner) {
         return booksRepository.findByOwner(owner);
+    }
+
+    public Page<Book> findAll(Integer page, Integer size) {
+        return booksRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public Page<Book> findAll(Integer page, Integer size, boolean sortByYear) {
+        if (sortByYear) {
+            return booksRepository.findAll(PageRequest.of(page, size, Sort.by("year")));
+        } else {
+            return findAll(page, size);
+        }
+    }
+
+    public List<Book> findAllStartWith(String startWith) {
+        return booksRepository.findByTitleStartingWithIgnoreCase(startWith);
     }
 }

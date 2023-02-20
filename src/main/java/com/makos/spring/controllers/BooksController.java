@@ -6,6 +6,7 @@ import com.makos.spring.services.BooksService;
 import com.makos.spring.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +28,16 @@ public class BooksController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "page", defaultValue = "0") Integer page,
+                        @RequestParam(value = "size", defaultValue = "3") Integer size,
+                        @RequestParam(value = "sort_by_year", defaultValue = "false") boolean sortByYear
+    ) {
+        Page<Book> pageFromDB = booksService.findAll(page, size, sortByYear);
+        model.addAttribute("sort_by_year", sortByYear);
+        model.addAttribute("size", size);
+        model.addAttribute("pages", pageFromDB.getTotalPages());
+        model.addAttribute("books", pageFromDB.getContent());
         return "books/index";
     }
 
@@ -96,6 +105,17 @@ public class BooksController {
     public String updateRelease(@PathVariable("id") int bookId) {
         booksService.release(bookId);
         return "redirect:/books/{id}";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String searchStartWith(Model model, @RequestParam("start_with") String startWith) {
+        model.addAttribute("books", booksService.findAllStartWith(startWith));
+        return "books/search";
     }
 
 }
