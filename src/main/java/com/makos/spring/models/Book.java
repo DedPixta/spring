@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 
@@ -37,10 +39,10 @@ public class Book {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
-//    @Column(name = "taken_at")
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date takenAt;
-//
-//    @Transient
-//    private Boolean expired;
+    @Column(name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date takenAt;
+
+    @Transient
+    private Boolean expired;
 }

@@ -26,7 +26,7 @@ CREATE TABLE spring.book
     author    varchar(100) NOT NULL,
     year      int          NOT NULL CHECK ( year > 1 AND book.year < 2023),
     person_id int          REFERENCES spring.person (id) ON DELETE SET NULL,
-    taken_at timestamp
+    taken_at  timestamp
 );
 
 INSERT INTO

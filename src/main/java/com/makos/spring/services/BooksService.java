@@ -11,13 +11,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
 public class BooksService {
 
+    public static final long TEN_DAYS = 864000000L;
     private final BooksRepository booksRepository;
     private final PeopleRepository peopleRepository;
 
@@ -50,27 +51,36 @@ public class BooksService {
 
     @Transactional
     public void updateOwner(int bookId, int personId) {
-        Optional<Book> optionalBook = booksRepository.findById(bookId);
-        if (optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-            book.setOwner(
-                    peopleRepository.findById(personId)
-                            .orElse(null)
-            );
-        }
+        booksRepository.findById(bookId)
+                .ifPresent(book -> {
+                    book.setTakenAt(new Date());
+                    book.setOwner(
+                            peopleRepository.findById(personId)
+                                    .orElse(null)
+                    );
+                });
     }
 
     @Transactional
     public void release(int bookId) {
-        Optional<Book> optionalBook = booksRepository.findById(bookId);
-        if (optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-            book.setOwner(null);
-        }
+        booksRepository.findById(bookId)
+                .ifPresent(book -> {
+                    book.setTakenAt(null);
+                    book.setOwner(null);
+                });
     }
 
     public List<Book> findByOwner(Person owner) {
-        return booksRepository.findByOwner(owner);
+        List<Book> books = booksRepository.findByOwner(owner);
+        Date currentTime = new Date();
+        for (Book book : books) {
+            Date takenAt = book.getTakenAt();
+            long period = Math.abs(currentTime.getTime() - takenAt.getTime());
+            if (period > TEN_DAYS) {
+                book.setExpired(true);
+            }
+        }
+        return books;
     }
 
     public Page<Book> findAll(Integer page, Integer size) {

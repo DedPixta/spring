@@ -95,14 +95,14 @@ public class BooksController {
     }
 
     @PatchMapping("/{id}/assign")
-    public String updateOwner(@PathVariable("id") int bookId,
-                              @RequestParam("id") int personId) {
+    public String setBookOwner(@PathVariable("id") int bookId,
+                               @RequestParam("id") int personId) {
         booksService.updateOwner(bookId, personId);
         return "redirect:/books/{id}";
     }
 
     @PatchMapping("/{id}/release")
-    public String updateRelease(@PathVariable("id") int bookId) {
+    public String releaseBook(@PathVariable("id") int bookId) {
         booksService.release(bookId);
         return "redirect:/books/{id}";
     }
