@@ -11,9 +11,8 @@
 
 <div class="container mt-3">
 
-    <strong>
-        <p id="book" th:text="${book.getTitle() + ', '+ book.getAuthor() + ', ' + book.getYear()}">Value</p>
-    </strong>
+    <p id="book" style="font-weight:bold"
+       th:text="${book.getTitle() + ', '+ book.getAuthor() + ', ' + book.getYear()}">Value</p>
 
     <div th:if="${person == null}">
         <p>This book is free. Who to assign it to?</p>
@@ -37,8 +36,8 @@
 
     <div th:if="${person != null}">
         <div class="d-flex">
-        <p class="me-2">This book is taken by: </p>
-        <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFullName()}">Text</a>
+            <p class="me-2">This book is taken by: </p>
+            <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFullName()}">Text</a>
         </div>
 
         <form th:method="PATCH"
