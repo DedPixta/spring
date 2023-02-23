@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -23,11 +24,13 @@ public class SecurePerson {
     @Column(name = "id")
     private int id;
 
-    @NotNull
+    @NotNull(message = "Name should not be empty")
+    @Size(min = 2, max = 30, message = "Name length should be 2-30 characters")
     @Column(name = "name")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Pass should not be empty")
+    @Size(min = 2, max = 6, message = "Password should be 2-6 characters")
     @Column(name = "pass")
     private String pass;
 
