@@ -30,7 +30,6 @@ public class SecurePerson {
     private String name;
 
     @NotNull(message = "Pass should not be empty")
-    @Size(min = 2, max = 6, message = "Password should be 2-6 characters")
     @Column(name = "pass")
     private String pass;
 
