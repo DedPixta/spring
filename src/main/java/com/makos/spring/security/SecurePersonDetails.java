@@ -3,9 +3,11 @@ package com.makos.spring.security;
 
 import com.makos.spring.model.SecurePerson;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class SecurePersonDetails implements UserDetails {
     private final SecurePerson person;
@@ -16,7 +18,7 @@ public class SecurePersonDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(person.getRole()));
     }
 
     @Override

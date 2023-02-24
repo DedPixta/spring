@@ -37,4 +37,7 @@ public class SecurePerson {
     @Max(value = 2023, message = "Birth year should be lower than 2023")
     @Column(name = "birth_year")
     private int birthYear;
+
+    @Column(name = "role")
+    private String role;
 }
