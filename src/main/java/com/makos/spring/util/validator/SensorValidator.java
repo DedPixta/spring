@@ -1,7 +1,8 @@
 package com.makos.spring.util.validator;
 
-import com.makos.spring.model.Sensor;
+import com.makos.spring.dto.SensorDTO;
 import com.makos.spring.service.SensorService;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -17,15 +18,15 @@ public class SensorValidator implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
-        return Sensor.class.equals(clazz);
+    public boolean supports(@NonNull Class<?> clazz) {
+        return SensorDTO.class.equals(clazz);
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
-        Sensor sensor = (Sensor) o;
+    public void validate(@NonNull Object o, @NonNull Errors errors) {
+        SensorDTO sensor = (SensorDTO) o;
 
-        Optional<Sensor> sensorFromDB = sensorService.findByName(sensor.getName());
+        Optional<SensorDTO> sensorFromDB = sensorService.findByName(sensor.getName());
 
         if(sensorFromDB.isPresent()) {
             errors.rejectValue("name", "","Sensor with this name already exists!");

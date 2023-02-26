@@ -1,7 +1,7 @@
 package com.makos.spring.controller;
 
+import com.makos.spring.dto.SensorDTO;
 import com.makos.spring.exception.SensorNotCreatedException;
-import com.makos.spring.model.Sensor;
 import com.makos.spring.service.SensorService;
 import com.makos.spring.util.ErrorExtractor;
 import com.makos.spring.util.ExceptionResponse;
@@ -25,15 +25,15 @@ public class SensorController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<HttpStatus> register(@RequestBody @Valid Sensor sensor,
+    public ResponseEntity<HttpStatus> register(@RequestBody @Valid SensorDTO sensorDTO,
                                                BindingResult bindingResult) {
-        sensorValidator.validate(sensor, bindingResult);
+        sensorValidator.validate(sensorDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
             String errors = ErrorExtractor.extract(bindingResult);
             throw new SensorNotCreatedException(errors);
         }
-        sensorService.register(sensor);
+        sensorService.register(sensorDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

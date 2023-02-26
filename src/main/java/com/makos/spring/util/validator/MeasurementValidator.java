@@ -1,8 +1,9 @@
 package com.makos.spring.util.validator;
 
-import com.makos.spring.model.Measurement;
-import com.makos.spring.model.Sensor;
+import com.makos.spring.dto.MeasurementDTO;
+import com.makos.spring.dto.SensorDTO;
 import com.makos.spring.service.SensorService;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -18,15 +19,15 @@ public class MeasurementValidator implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
-        return Measurement.class.equals(clazz);
+    public boolean supports(@NonNull Class<?> clazz) {
+        return MeasurementDTO.class.equals(clazz);
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
-        Measurement measurement = (Measurement) o;
+    public void validate(@NonNull Object o, @NonNull Errors errors) {
+        MeasurementDTO measurement = (MeasurementDTO) o;
 
-        Optional<Sensor> sensorFromDB = sensorService.findByName(measurement.getSensor().getName());
+        Optional<SensorDTO> sensorFromDB = sensorService.findByName(measurement.getSensor().getName());
 
         if(sensorFromDB.isEmpty()) {
             errors.rejectValue("sensor", "","Sensor with this name not found!");

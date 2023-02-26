@@ -1,7 +1,8 @@
 package com.makos.spring.controller;
 
+import com.makos.spring.dto.MeasurementDTO;
 import com.makos.spring.exception.MeasurementNotCreatedException;
-import com.makos.spring.model.Measurement;
+import com.makos.spring.exception.SensorNotFoundException;
 import com.makos.spring.service.MeasurementService;
 import com.makos.spring.util.ErrorExtractor;
 import com.makos.spring.util.ExceptionResponse;
@@ -26,7 +27,7 @@ public class MeasurementController {
     }
 
     @GetMapping
-    public List<Measurement> getAll() {
+    public List<MeasurementDTO> getAll() {
         return measurementService.findAll();
     }
 
@@ -36,21 +37,31 @@ public class MeasurementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid Measurement measurement,
+    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
                                                      BindingResult bindingResult){
-        measurementValidator.validate(measurement, bindingResult);
+        measurementValidator.validate(measurementDTO, bindingResult);
 
         if(bindingResult.hasErrors()) {
             String errors = ErrorExtractor.extract(bindingResult);
             throw new MeasurementNotCreatedException(errors);
         }
-        measurementService.add(measurement);
+        measurementService.add(measurementDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(MeasurementNotCreatedException e) {
+        ExceptionResponse response = ExceptionResponse.builder()
+                .message(e.getMessage())
+                .timestamp(System.currentTimeMillis())
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ExceptionResponse> handleException(SensorNotFoundException e) {
         ExceptionResponse response = ExceptionResponse.builder()
                 .message(e.getMessage())
                 .timestamp(System.currentTimeMillis())

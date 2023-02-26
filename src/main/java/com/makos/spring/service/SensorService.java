@@ -1,12 +1,12 @@
 package com.makos.spring.service;
 
-import com.makos.spring.model.Sensor;
+import com.makos.spring.dto.SensorDTO;
 
 import java.util.Optional;
 
 public interface SensorService {
 
-    void register(Sensor sensor);
+    void register(SensorDTO sensorDTO);
 
-    Optional<Sensor> findByName(String name);
+    Optional<SensorDTO> findByName(String name);
 }

@@ -1,5 +1,7 @@
 package com.makos.spring.service.impl;
 
+import com.makos.spring.dto.SensorDTO;
+import com.makos.spring.mapper.SensorMapper;
 import com.makos.spring.model.Sensor;
 import com.makos.spring.repository.SensorRepository;
 import com.makos.spring.service.SensorService;
@@ -22,12 +24,15 @@ public class SensorServiceImpl implements SensorService {
 
     @Transactional
     @Override
-    public void register(Sensor sensor) {
+    public void register(SensorDTO sensorDTO) {
+        Sensor sensor = SensorMapper.INSTANCE.mapToSensor(sensorDTO);
         sensorRepository.save(sensor);
     }
 
     @Override
-    public Optional<Sensor> findByName(String name) {
-        return sensorRepository.findByName(name);
+    public Optional<SensorDTO> findByName(String name) {
+        return sensorRepository
+                .findByName(name)
+                .map(SensorMapper.INSTANCE::mapToSensorDTO);
     }
 }
