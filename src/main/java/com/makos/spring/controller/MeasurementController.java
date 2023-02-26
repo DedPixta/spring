@@ -49,24 +49,22 @@ public class MeasurementController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(MeasurementNotCreatedException e) {
-        ExceptionResponse response = ExceptionResponse.builder()
-                .message(e.getMessage())
-                .timestamp(System.currentTimeMillis())
-                .build();
-
+        ExceptionResponse response = buildResponse(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(SensorNotFoundException e) {
-        ExceptionResponse response = ExceptionResponse.builder()
-                .message(e.getMessage())
+        ExceptionResponse response = buildResponse(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    private ExceptionResponse buildResponse(String e) {
+        return ExceptionResponse.builder()
+                .message(e)
                 .timestamp(System.currentTimeMillis())
                 .build();
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

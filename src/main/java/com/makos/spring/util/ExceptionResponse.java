@@ -10,7 +10,6 @@ import lombok.*;
 public class ExceptionResponse {
 
     private String message;
-
     private long timestamp;
 
 }
